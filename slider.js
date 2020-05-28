@@ -1,7 +1,43 @@
+//set your settings here
+const sliderSettings = {
+    buttonsColor: 'white',
+    speed: '0.7s',
+    isSliderShow: false,
+    sliderShowInterval: 5000
+}
+
+
+let arrayOfSlides = Array.from(document.querySelectorAll('.slide'));
+function ownStyle() {
+    document.querySelector('#prevButton').style.color = sliderSettings.buttonsColor;
+    document.querySelector('#nextButton').style.color = sliderSettings.buttonsColor;
+    arrayOfSlides.forEach(item => {
+        item.style.transition = sliderSettings.speed;
+    })
+}
+
+//comment this function if you can set style in css file, it's much better
+//for optimization
+ownStyle()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//dont touch this code if you are not understand what is going on here
 let currentTranslate = 0;
 let currnetSlide = 0;
 let translateWidth = document.querySelector('.slide').offsetWidth;
-let arrayOfSlides = Array.from(document.querySelectorAll('.slide'));
+let timeoutId;
 
 
 function slideNext() {
@@ -17,6 +53,8 @@ function slideNext() {
     arrayOfSlides.forEach(item => {
         item.style.transform = `translateX(${currentTranslate}px)`
     })
+
+    setSliderShow()
 }
 
 function slidePrev() {
@@ -32,7 +70,20 @@ function slidePrev() {
     arrayOfSlides.forEach(item => {
         item.style.transform = `translateX(${currentTranslate}px)`
     })
+
+    setSliderShow()
 }
+
+
+function setSliderShow() {
+    if (sliderSettings.isSliderShow) {
+        clearTimeout(timeoutId)
+        timeoutId = setTimeout(slideNext, sliderSettings.sliderShowInterval)
+    }
+}
+setSliderShow()
+
+
 
 window.addEventListener('resize', ()=>{
     translateWidth = document.querySelector('.slide').offsetWidth;
@@ -42,3 +93,4 @@ window.addEventListener('resize', ()=>{
         item.style.transform = `translateX(0px)`
     })
 })
+
